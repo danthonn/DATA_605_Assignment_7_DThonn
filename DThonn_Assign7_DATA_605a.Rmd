@@ -1,0 +1,176 @@
+---
+title: "DATA_605_Assignment_7_DThonn"
+file: DThonn_Assign7_DATA_605
+name: Daniel Thonn
+output:
+  html_document: default
+  pdf_document: default
+course: DATA 605 CUNY MSDA program
+---
+
+** DATA_605_Assignment_7_Thonn - Important Distributions **
+
+http://rpubs.com/danthonn/371026
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+``````{r, echo=TRUE}
+# install libraries if needed
+#install.packages("permutations")
+#library(permutations)
+
+#install.packages('gtools')
+#library(gtools)
+
+```
+
+** Problem-1 **
+
+
+1. Let X1, X2, . . . , Xn be n mutually independent random variables, each of which is uniformly distributed on the integers from 1 to k. Let Y denote the minimum of the Xi???s. Find the distribution of Y.
+
+
+Answer-1:
+
+P(Y=1)+P(Y=2)+???+P(Y=k)=1
+
+a). assign 1 to k to X1, X2, . . . , Xn = kn 
+
+P(Y=1)=kn - (k - 1)nkn
+
+
+b). assign 2 to k to X1, X2, . . . , Xn = kn
+
+P(Y=2)=kn -(k - 2)n - [kn - (k-1)n]kn  
+      =(k-1)n - (k-2)nkn
+
+c). assign 3 to k to X1, X2, . . . , Xn = kn
+
+P(Y=3)=kn-(k-3)n - [(k-1)n - (k-2)n] - [kn - (k-1)n]kn
+      =(k-2)n - (k-3)nkn
+
+d). assign j to k to X1, X2, . . . , Xn is (k - j)n 
+
+then-Answer-1: 
+
+P(Y=j)=(k-j+1)n - (k-j)nkn 
+
+these are the ways to assign X1,X2......Xn so that the minimum value is j.
+
+
+** Problem-2 **
+
+2.	Your organization owns a copier (future lawyers, etc.) or MRI (future doctors). This machine has a manufacturer's expected lifetime of 10 years. This means that we expect one failure every ten years. (Include the probability statements and R Code for each part.).
+
+a.	What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a geometric. (Hint: the probability is equivalent to not failing during the first 8 years..)
+
+``````{r, echo=TRUE}
+
+# Problem - 2a: 
+#probability that machine will fail before 8 years
+p_bef_8 <- pgeom(7,1/10)
+
+#probability that machine will fail after 8 years
+p_aft_8 <- round(1-p_bef_8,3)
+p_aft_8
+# [1] 0.43
+
+# expect 1 failure every 10 years
+p <- 0.1
+EV <- (1 - p)/p
+EV
+# [1] 9
+
+ sd <- sqrt((1 - p)/p^2)
+ sd
+# [1] 9.486833
+
+```
+
+b.	What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as an exponential.
+
+``````{r, echo=TRUE}
+# Problem - 2b: 
+
+x <- 8
+lam <- .1
+
+#probability that machine will fail after 8 years
+p_exp_aft_8 <- round(pexp(8,.1,lower.tail = F),4)
+p_exp_aft_8
+
+
+# expect 1 failure every 10 years
+x <- 8
+lam <- .1
+EV <- 1/lam
+EV
+# [1] 10
+
+sd <- sqrt(1/lam^2)
+sd
+# [1] 10
+
+```
+
+c.	What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a binomial. (Hint: 0 success in 8 years)
+
+``````{r, echo=TRUE}
+
+pr <- 0.1
+n <- 8
+x <- 0
+
+dbinom(0, 8, .1)
+# [1] 0.4304672
+
+
+EV <- n * pr
+EV
+# [1] 0.8
+
+sd <- sqrt(n * pr * (1 - pr))
+sd
+# [1] 0.8485281
+
+
+```
+
+d.	What is the probability that the machine will fail after 8 years?. Provide also the expected value and standard deviation. Model as a Poisson.
+
+``````{r, echo=TRUE}
+
+pr <- 0.1
+t <- 8
+x <- 0
+
+lam <- t * pr
+lam
+# [1] 0.8
+
+dpois(x,lam)
+# [1] 0.449329
+
+
+EV <- lam
+EV
+# [1] 0.8
+
+sd <- round(sqrt(lam),4)
+sd
+# [1] 0.8944
+
+```
+
+
+** END **
+
+
+``````{r, echo=TRUE}
+
+```
+
+
